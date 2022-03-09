@@ -10,25 +10,32 @@ int main() {
 //    std::vector<int> a = {1, 3, -2, -1, -3, -4, -1, -2, -1, -5};
 
 
-    int i,j, sum, sum_max;
+    int i,j, minus_pos, sum,sum_max;
 
-    // task completion
+    // task completion (Algorithm Kadane)
     // initialization
     i = 0;
-    j = a.size()-1;
+    j = 0;
     sum = 0;
-    for(int ind=i; ind<=j; ind++)
-        sum += a[ind];
-    sum_max = sum;
+    sum_max = a[0];
+    minus_pos = -1;
     // work
-    for(int ind_i=0; ind_i<a.size(); sum-=a[ind_i++]) {
-        int sum2 = sum;
-        for (int ind_j = (a.size() - 1); ind_j >= ind_i; sum2 -= a[ind_j--])
-            if (sum2 > sum_max) {
-                sum_max = sum2;
-                i = ind_i;
-                j = ind_j;
-            }
+    for(int r=0; r<a.size(); r++)
+    {
+        sum += a[r];
+
+        if( sum > sum_max )
+        {
+            sum_max = sum;
+            i = minus_pos+1;
+            j = r;
+        }
+
+        if( sum < 0 )
+        {
+            sum = 0;
+            minus_pos = r;
+        }
     }
 
     // result output
